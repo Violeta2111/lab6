@@ -36,55 +36,31 @@ void printMatrix(int rows, int cols, float matrix[rows][cols]) {
     }
 }
 
-// Функція для сортування одного рядка (сортуванням бульбашкою)
-void sortRow(float row[], int cols) {
-    for (int i = 0; i < cols - 1; i++) {
-        for (int j = 0; j < cols - i - 1; j++) {
-            if (row[j] > row[j + 1]) {
-                float temp = row[j];
-                row[j] = row[j + 1];
-                row[j + 1] = temp;
-            }
-        }
-    }
-}
-
-// Сортування всіх рядків матриці
-void sortMatrixRows(int rows, int cols, float matrix[rows][cols]) {
-    for (int i = 0; i < rows; i++) {
-        sortRow(matrix[i], cols);
-    }
-}
-
 int main() {
-    srand(time(NULL)); // ініціалізація генератора випадкових чисел
-    char choice;
+    srand(time(NULL)); // Ініціалізація генератора випадкових чисел
+
+    int rows, cols;
+
+    // Введення розміру з перевіркою
+    do {
+        rows = getInt("Введіть кількість рядків (більше 0): ");
+        if (rows <= 0) {
+            printf("❌ Кількість рядків має бути більше 0!\n");
+        }
+    } while (rows <= 0);
 
     do {
-        // Введення розмірів матриці
-        int rows = getInt("Введіть кількість рядків: ");
-        int cols = getInt("Введіть кількість стовпців: ");
+        cols = getInt("Введіть кількість стовпців (більше 0): ");
+        if (cols <= 0) {
+            printf("❌ Кількість стовпців має бути більше 0!\n");
+        }
+    } while (cols <= 0);
 
-        // Оголошення матриці
-        float matrix[rows][cols];
+    float matrix[rows][cols];
 
-        // Генерація та вивід початкової матриці
-        generateMatrix(rows, cols, matrix);
-        printf("\nПочаткова матриця:\n");
-        printMatrix(rows, cols, matrix);
+    generateMatrix(rows, cols, matrix);
+    printf("\nЗгенерована матриця:\n");
+    printMatrix(rows, cols, matrix);
 
-        // Сортування рядків матриці
-        sortMatrixRows(rows, cols, matrix);
-        printf("\nМатриця після сортування кожного рядка по зростанню:\n");
-        printMatrix(rows, cols, matrix);
-
-        // Меню: повторити чи завершити
-        printf("\n1 - Виконати ще раз\n0 - Вийти\nВаш вибір: ");
-        scanf(" %c", &choice);
-        while (getchar() != '\n'); // очищення буфера
-
-    } while (choice == '1');
-
-    printf("Програму завершено.\n");
     return 0;
 }
